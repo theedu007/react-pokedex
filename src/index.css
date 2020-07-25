@@ -12,3 +12,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'PokemonGb-RAeo';
+  src: local('PokemonGb-RAeo'), url('./font/PokemonGb-RAeo.ttf')
+}

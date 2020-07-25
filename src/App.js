@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, Card, CardContent, CardHeader, Box } from '@material-ui/core'
+import { Container, Grid, Card, CardContent, CardHeader } from '@material-ui/core'
 
 import SearchBox from './components/searchbox.component'
 import ImageCarousel from './components/carousel.component'
@@ -46,6 +46,7 @@ class App extends React.Component {
               <Card style={{ height: '350px'}}  >
                   <CardContent >
                     <SearchBox handleFetch={ this.handleFetch } searchTerm={searchTerm} handleChange={e => (this.setState({ searchTerm: e.target.value.toLowerCase() }))} />
+                    <PokemonDescriptionContainer speciesData={speciesData} />
                   </CardContent>
                 </Card>
             </Grid>
