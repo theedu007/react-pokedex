@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, Card, CardContent, CardHeader } from '@material-ui/core'
+import { Container, Grid, Card, CardContent, CardHeader, Box } from '@material-ui/core'
 
 import SearchBox from './components/searchbox.component'
 import ImageCarousel from './components/carousel.component'
@@ -41,20 +41,19 @@ class App extends React.Component {
     return (
       <div>
         <Container style={{paddingTop: '20px'}}>
-          <Grid pt={4} container spacing={2} style={{ height: '450px' }}>
+          <Grid pt={4} container spacing={2}>
             <Grid item xs={12} sm={6} style={{ height: '100%' }}>
-              <Card style={{ height: '450px'}} >
-                <CardContent >
-                  <SearchBox handleFetch={ this.handleFetch } searchTerm={searchTerm} handleChange={e => (this.setState({ searchTerm: e.target.value.toLowerCase() }))} />
-                  <p>  </p>
-                </CardContent>
-              </Card>
+              <Card style={{ height: '350px'}}  >
+                  <CardContent >
+                    <SearchBox handleFetch={ this.handleFetch } searchTerm={searchTerm} handleChange={e => (this.setState({ searchTerm: e.target.value.toLowerCase() }))} />
+                  </CardContent>
+                </Card>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Card style={{ textAlign: 'center', height: '275px'}}>
                 <CardHeader title={ !name ? 'Pokemon' : name.charAt(0).toUpperCase() + name.slice(1) } />
-                <CardContent>
-                  <ImageCarousel sprites={sprites} name={ name } />
+                  <CardContent>
+                    <ImageCarousel sprites={sprites} name={ name } />
                 </CardContent>
               </Card>
             </Grid>
