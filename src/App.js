@@ -1,26 +1,68 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Container, Grid, Card, CardContent, CardHeader } from '@material-ui/core'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+import SearchBox from './components/searchbox.component'
+import ImageCarousel from './components/carousel.component'
+import PokemonDescriptionContainer from './components/pokemonDescriptionContainer.component'
+
+import { getPokemonData, getPokemonSpecies } from './utils/fetchPokemon'
+
+class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      searchTerm : '',
+      pokemonData : {},
+      speciesData: {}
+    }
+  }
+
+  handleFetch = () => (
+    getPokemonData(this.state.searchTerm)
+    .then(data => this.setState({ pokemonData: data}))
   );
+
+  handleSpeciesFetch = (url) => (
+    getPokemonSpecies(url)
+    .then(data => this.setState({ speciesData: data }))
+  );
+
+  componentDidUpdate (prevProps, prevState) {
+    if(prevState.pokemonData !== this.state.pokemonData) {
+      const { species } = this.state.pokemonData;
+      this.handleSpeciesFetch(species.url);
+    }
+  }
+
+  render () {
+    const { searchTerm, pokemonData, speciesData } = this.state;
+    const { name, sprites } = pokemonData;
+    return (
+      <div>
+        <Container style={{paddingTop: '20px'}}>
+          <Grid pt={4} container spacing={2} style={{ height: '450px' }}>
+            <Grid item xs={12} sm={6} style={{ height: '100%' }}>
+              <Card style={{ height: '450px'}} >
+                <CardContent >
+                  <SearchBox handleFetch={ this.handleFetch } searchTerm={searchTerm} handleChange={e => (this.setState({ searchTerm: e.target.value.toLowerCase() }))} />
+                  <p>  </p>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Card style={{ textAlign: 'center', height: '275px'}}>
+                <CardHeader title={ !name ? 'Pokemon' : name.charAt(0).toUpperCase() + name.slice(1) } />
+                <CardContent>
+                  <ImageCarousel sprites={sprites} name={ name } />
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Container>
+      </div>
+    );
+  }
 }
 
 export default App;
